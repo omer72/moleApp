@@ -1,0 +1,18 @@
+<div class="jumbotron">
+  <md-content>
+    <div layout="column"  layout-align="space-around center">
+      <div style="padding-bottom: 20px"><md-button class="md-raised md-primary" ng-click="kill($event)">Kill</md-button></div>
+      <div><md-button class="md-raised md-primary" ng-click="restart($event)">Restart</md-button></div>
+      {{alert}}
+
+    </div>
+    <md-list>
+      <md-list-item class="md-2-line" ng-repeat="player in gameList |orderBy : '-score'">
+        <div class="md-list-item-text">
+          <p>{{player.name}}: {{player.score}}</p>
+        </div>
+
+      </md-list-item>
+    </md-list>
+  </md-content>
+</div>
