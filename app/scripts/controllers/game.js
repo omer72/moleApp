@@ -18,7 +18,9 @@ angular.module('moleAppApp')
       for(var i=0; i <hole; i++){
         $scope.moles.push({
           index:i,
-          style :'background-color:blue'
+          style :'background-color:#d4d4d4',
+          img : 'Penguin_peeps_right.svg'
+
         })
       }
       startGame();
@@ -26,9 +28,10 @@ angular.module('moleAppApp')
 
     $scope.hit = function(index){
       if (canHit) {
-        $scope.moles[index].style = 'background-color:red';
-        console.log("hit -> " + index + " currentMoleIndex " + currentMoleIndex);
+
         if (index == currentMoleIndex) {
+          $scope.moles[index].style = 'background-color:#ffb200';
+          $scope.moles[index].img = 'Penguin_seeing_stars.svg';
           var clientId = $window.sessionStorage.getItem('clientId');
           $scope.counter++;
           $window.sessionStorage.setItem('counter', $scope.counter);
@@ -45,7 +48,6 @@ angular.module('moleAppApp')
             }
           );
         } else {
-          $scope.moles[index].style = 'background-color:blue';
           canHit = false;
         }
       }
@@ -74,17 +76,25 @@ angular.module('moleAppApp')
     }
     var resetColor = function(){
       for(var i=0; i <hole; i++){
-        $scope.moles[i].style='background-color:blue';
+        $scope.moles[i].style='background-color:#d4d4d4';
+        $scope.moles[i].img='Penguin_peeps_right.svg';
       }
     }
 
     var startGame = function(){
-         gameInterval = $interval(function(){
-          resetColor();
-          currentMoleIndex = Math.floor((Math.random()*hole) );
-           canHit = true;
-          $scope.moles[currentMoleIndex].style='background-color:green';
-        },intervalDelay)
+      $interval.cancel(gameInterval);
+      gameInterval = $interval(gamePlay,intervalDelay)
+    }
+
+    var gamePlay = function() {
+      resetColor();
+      currentMoleIndex = Math.floor((Math.random() * hole));
+      canHit = true;
+      $scope.moles[currentMoleIndex].style = 'background-color:#0286d1';
+      $scope.moles[currentMoleIndex].img = 'Sitting_Penguin.svg';
+      $interval.cancel(gameInterval);
+      intervalDelay = Math.floor((Math.random() * 3000));
+      startGame();
     }
 
     init();

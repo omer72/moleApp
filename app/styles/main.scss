@@ -51,7 +51,7 @@ body {
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
-
+  padding-top: 40px;
   .btn {
     font-size: 21px;
     padding: 14px 24px;
@@ -101,4 +101,26 @@ body {
 
 md-content.md-default-theme{
   background-color: rgba(255,255,255,0);
+}
+md-icon {
+  width: 116%;
+  height: 116%;
+}
+.md-button.md-fab{
+//  border-style:solid ;
+//  border-width: 1px;
+//  border-color: #1222b8;
+  width: 80px;
+  height: 80px;
+}
+
+.imgHolder {
+  position: relative;
+}
+
+.imgHolder span{
+  position: absolute;
+  right: 50%;
+  margin: -50px;
+  top: 85px;
 }
