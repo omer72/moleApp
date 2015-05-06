@@ -1,7 +1,13 @@
 <div class="jumbotron">
   <md-content>
     <div layout="column"  layout-align="space-around center">
-      <div style="padding-bottom: 20px"><md-button class="md-raised md-primary" ng-click="kill($event)">Kill</md-button></div>
+      <div style="padding-bottom: 20px"><md-button class="md-raised md-primary" ng-click="login()">Login</md-button></div>
+      <label>{{logedin}}</label>
+      <div style="padding-bottom: 20px"><md-button class="md-raised md-primary" ng-click="getStorageList()">getStorageList</md-button></div>
+      <md-select placeholder="Storage List" ng-model="selectdStorage">
+        <md-option ng-value="storage.id" ng-repeat="storage in storageList">{{storage.name}}</md-option>
+      </md-select>
+      <div style="padding: 20px 0 20px 0"><md-button class="md-raised md-primary" ng-click="kill($event)">Kill</md-button></div>
       <div><md-button class="md-raised md-primary" ng-click="restart($event)">Restart</md-button></div>
       {{alert}}
 

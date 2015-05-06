@@ -2,9 +2,33 @@
 
 
 angular.module('moleAppApp')
-  .controller('KillAllCtrl', function ($mdDialog,$scope,loopbackSrv) {
+  .controller('KillAllCtrl', function ($mdDialog,$scope,loopbackSrv,openstackSrv) {
 
-    $scope.kill = function(ev){
+      $scope.storageList = [];
+      $scope.selectdStorage;
+      $scope.login = function(){
+        openstackSrv.login().then(
+            function success(res){
+              $scope.logedin = "Logged in";
+
+            },
+            function error(err){
+              $scope.logedin = "Not Logged in"
+            }
+        );
+      }
+
+      $scope.getStorageList = function () {
+        openstackSrv.getStorageList().then(
+            function success(res){
+              $scope.storageList = res.storages;
+            }
+        )
+      }
+
+
+
+      $scope.kill = function(ev){
       var confirm = $mdDialog.confirm()
         .title('Would you like to Kill the game?')
         .content('Killing the game will stop all users.')
@@ -13,6 +37,7 @@ angular.module('moleAppApp')
         .targetEvent(ev);
       $mdDialog.show(confirm).then(function() {
         $scope.alert = 'You decided to kill the game';
+        openstackSrv.detachAndDeleteStorage($scope.selectdStorage),
         loopbackSrv.killAll().then(
           function success(res){
             $scope.gameList = res;

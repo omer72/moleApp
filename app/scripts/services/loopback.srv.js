@@ -1,4 +1,4 @@
-angular.module('wam.service',[]).
+angular.module('wam.service.loop',[]).
   factory('loopbackSrv',function($q,$http,$location){
 
     var register = function(data){

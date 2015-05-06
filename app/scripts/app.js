@@ -16,7 +16,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'wam.service',
+    'wam.service.loop',
+    'wam.service.openstack',
     'ngMaterial'
   ])
   .config(function ($routeProvider) {

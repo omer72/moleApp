@@ -2,8 +2,13 @@
   <div layout="row" layout-wrap = "space-around center">
   <div flex="33" ng-repeat="mole in moles" ng-click="hit(mole.index)" style="padding:0 0 15px 15px" >
     <md-button id="mole_{{$index}}" class="md-fab" aria-label="Eat cake" style="{{mole.style}}">
+      <md-tooltip>
+        {{mole.title}}
+      </md-tooltip>
       <md-icon md-svg-src="../images/{{mole.img}}" ></md-icon>
+
     </md-button>
+
   </div>
   <div>
   </div>

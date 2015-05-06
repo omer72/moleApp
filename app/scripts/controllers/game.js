@@ -12,6 +12,7 @@ angular.module('moleAppApp')
 
     $scope.moles = [];
     var init = function(){
+
       if (!$window.sessionStorage.getItem('clientId')){
         $location.path('/main');
       }
@@ -19,8 +20,8 @@ angular.module('moleAppApp')
         $scope.moles.push({
           index:i,
           style :'background-color:#d4d4d4',
-          img : 'Penguin_peeps_right.svg'
-
+          img : 'Penguin_peeps_right.svg',
+          title : 'VM #'+i
         })
       }
       startGame();

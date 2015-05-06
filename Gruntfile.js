@@ -12,6 +12,9 @@ module.exports = function (grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
 
+  grunt.loadNpmTasks('grunt-connect-proxy');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
@@ -71,22 +74,41 @@ module.exports = function (grunt) {
         hostname: '0.0.0.0',
         livereload: 35729
       },
+      proxies: [
+        {
+          context: '/al-openstack',
+          host: '10.20.60.12',
+          port: 443,
+          https:true,
+          changeOrigin:false,
+          rejectUnauthorized:false
+        },{
+          context: '/al-web',
+          host: '10.20.60.12',
+          port: 443,
+          https:true,
+          changeOrigin:false,
+          rejectUnauthorized:false
+        }
+      ],
       livereload: {
         options: {
           open: true,
-          middleware: function (connect) {
-            return [
-              connect.static('.tmp'),
-              connect().use(
+          middleware: function (connect,options) {
+            var middlewares = [];
+            middlewares.push(require('grunt-connect-proxy/lib/utils').proxyRequest);
+
+            middlewares.push(connect.static('.tmp'));
+            middlewares.push(  connect().use(
                 '/bower_components',
                 connect.static('./bower_components')
-              ),
-              connect().use(
+              ));
+            middlewares.push(  connect().use(
                 '/app/styles',
                 connect.static('./app/styles')
-              ),
-              connect.static(appConfig.app)
-            ];
+              ));
+            middlewares.push( connect.static(appConfig.app));
+            return middlewares;
           }
         }
       },
@@ -431,6 +453,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'configureProxies:server',
       'concurrent:server',
       'autoprefixer:server',
       'connect:livereload',
